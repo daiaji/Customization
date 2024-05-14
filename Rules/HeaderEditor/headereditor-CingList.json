@@ -83,6 +83,31 @@
 			"action": "redirect",
 			"to": "https://fastly.jsdelivr.net/$1",
 			"group": "CingList-Redirect"
+		},
+		{
+			"enable": true,
+			"name": "github静态资源 >> gh-proxy",
+			"ruleType": "redirect",
+			"matchType": "regexp",
+			"pattern": "(^https?:\\/\\/raw\\.githubusercontent\\.com\\/.*$|^https?:\\/\\/github.com\\/.*\\/.*\\/.*\\/download\\/.*$)",
+			"exclude": "",
+			"group": "CingList-Redirect",
+			"isFunction": false,
+			"action": "redirect",
+			"to": "https://gh.erojk.buzz/$1"
+		},
+		{
+			"enable": true,
+			"name": "去除Google重定向",
+			"ruleType": "redirect",
+			"matchType": "regexp",
+			"pattern": "^http(?:s?)://www\\.google\\.com/url\\?q=.*",
+			"exclude": "",
+			"group": "CingList-Redirect",
+			"isFunction": true,
+			"action": "redirect",
+			"to": "https://gstatic.loli.net/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxK.woff2",
+			"code": "function extractURL(url) {\n  const regex = /url\\?q=(https?:\\/\\/.*?)&/;\n  const decodedVal = decodeURIComponent(url);\n  const match = decodedVal.match(regex);\n  return match ? match[1] : null;\n}\n\nreturn extractURL(val);"
 		}
 	],
 	"sendHeader": [
